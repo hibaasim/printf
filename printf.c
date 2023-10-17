@@ -14,18 +14,20 @@ int _printf(const char *format, ...)
 
 	if (format == NULL)
 		return (-1);
-	
+
 	va_start(pr, format);
 	while (*format)
-	{	
+	{
 		if (*format != '%')
-		{	
+		{
 			write(1, format, 1);
 			ch_num++;
 		}
 		else
 		{
 			format++;
+			if (*format == '\0')
+				break;
 			if (*format == '%')
 			{
 				write(1, &perc, 1);
@@ -33,14 +35,16 @@ int _printf(const char *format, ...)
 			}
 			else if (*format == 'c')
 			{
-				int cha_r = va_arg(pr, int);
-				write (1, &cha_r, 1);
+				char cha_r = va_arg(pr, int);
+
+				write(1, &cha_r, 1);
 				ch_num++;
 			}
 			else if (*format == 's')
 			{
 				char *str = va_arg(pr, char *);
-				write (1, str, strlen(str));
+
+				write(1, str, strlen(str));
 				ch_num += strlen(str);
 			}
 		}
